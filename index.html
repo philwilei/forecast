@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<head>
+  <title>forecast</title>
+
+  <link rel="stylesheet" type="text/css" href="./style.css">
+
+  <script type="text/javascript" src="./skycons.js"></script>
+  <script type="text/javascript" src="./getWeather_ajax.js"></script>
+  <script type="text/javascript" src="./libs/p5.js"></script>
+  <script type="text/javascript" src="./libs/jquery-3.3.1.js"></script>
+</head>
+
+<body>
+  <header>
+    <div id="navBar">
+      <form id="searchForm">
+        <input class="searchBox" type="text" placeholder="Search for a location">
+      </form>
+      <img src="./darksky-logo.png" id="navBarLogo" height="76" width="190">
+      <div style="width: 190px; height: 76px; float: left; padding-left: 10px;"></div>
+    </div>
+  </header>
+
+  <div class="forecast_container" style="background: #142635;">
+    <div class="forecast_item">
+      <div class="ul_item">
+        <span id="day0">day0</span>
+      </div>
+      <div>
+        <canvas id="day0icon" height="64" width="64"></canvas>
+      </div>
+      <div class="tempContainer">
+        <div class="temp_left">
+          <span id="day0highTemp">3 °C</span>
+        </div>
+        <div class="temp_right">
+          <span id="day0lowTemp">-2 °C</span>
+        </div>
+      </div>
+      <div class="precipContainer">
+        <div id="precip_left0">
+          <span id="day0probab">5%</span>
+        </div>
+        <div id="precip_right0">
+          <span id="day0amount">2cm</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="forecast_item">
+      <div class="ul_item">
+        <span id="day1">day1</span>
+      </div>
+      <div>
+        <canvas id="day1icon" height="64" width="64"></canvas>
+      </div>
+      <div class="tempContainer">
+        <div class="temp_left">
+          <span id="day1highTemp">3 °C</span>
+        </div>
+        <div class="temp_right">
+          <span id="day1lowTemp">-2 °C</span>
+        </div>
+      </div>
+      <div class="precipContainer">
+        <div id="precip_left1">
+          <span id="day1probab">5%</span>
+        </div>
+        <div id="precip_right1">
+          <span id="day1amount"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="forecast_item">
+      <div class="ul_item">
+        <span id="day2">day2</span>
+      </div>
+      <div>
+        <canvas id="day2icon" height="64" width="64"></canvas>
+      </div>
+      <div class="tempContainer">
+        <div class="temp_left">
+          <span id="day2highTemp">3 °C</span>
+        </div>
+        <div class="temp_right">
+          <span id="day2lowTemp">-2 °C</span>
+        </div>
+      </div>
+      <div class="precipContainer">
+        <div id="precip_left2">
+          <span id="day2probab">5%</span>
+        </div>
+        <div id="precip_right2">
+          <span id="day2amount"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="forecast_item">
+      <div class="ul_item">
+        <span id="day3">day3</span>
+      </div>
+      <div>
+        <canvas id="day3icon" height="64" width="64"></canvas>
+      </div>
+      <div class="tempContainer">
+        <div class="temp_left">
+          <span id="day3highTemp">3 °C</span>
+        </div>
+        <div class="temp_right">
+          <span id="day3lowTemp">-2 °C</span>
+        </div>
+      </div>
+      <div class="precipContainer">
+        <div id="precip_left3">
+          <span id="day3probab">5%</span>
+        </div>
+        <div id="precip_right3">
+          <span id="day3amount"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="forecast_item">
+      <div class="ul_item">
+        <span id="day4">day4</span>
+      </div>
+      <div>
+        <canvas id="day4icon" height="64" width="64"></canvas>
+      </div>
+      <div class="tempContainer">
+        <div class="temp_left">
+          <span id="day4highTemp">3 °C</span>
+        </div>
+        <div class="temp_right">
+          <span id="day4lowTemp">-2 °C</span>
+        </div>
+      </div>
+      <div class="precipContainer">
+        <div id="precip_left4">
+          <span id="day4probab">5%</span>
+        </div>
+        <div id="precip_right4">
+          <span id="day4amount"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="forecast_item">
+      <div class="ul_item">
+        <span id="day5">day5</span>
+      </div>
+      <div>
+        <canvas id="day5icon" height="64" width="64"></canvas>
+      </div>
+      <div class="tempContainer">
+        <div class="temp_left">
+          <span id="day5highTemp">3 °C</span>
+        </div>
+        <div class="temp_right">
+          <span id="day5lowTemp">-2 °C</span>
+        </div>
+      </div>
+      <div class="precipContainer">
+        <div id="precip_left5">
+          <span id="day5probab">5%</span>
+        </div>
+        <div id="precip_right5">
+          <span id="day5amount"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="forecast_item">
+      <div class="ul_item">
+        <span id="day6">day6</span>
+      </div>
+      <div>
+        <canvas id="day6icon" height="64" width="64"></canvas>
+      </div>
+      <div class="tempContainer">
+        <div class="temp_left">
+          <span id="day6highTemp">3 °C</span>
+        </div>
+        <div class="temp_right">
+          <span id="day6lowTemp">-2 °C</span>
+        </div>
+      </div>
+      <div class="precipContainer">
+        <div id="precip_left6">
+          <span id="day6probab">5%</span>
+        </div>
+        <div id="precip_right6">
+          <span id="day6amount"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
