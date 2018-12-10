@@ -7,9 +7,9 @@ let unitsParam = '?units=si';
 // https://api.darksky.net/forecast/1a5dd3f32f0263c12b838a8de22df78c/50.2025478,8.5770309?units=si
 //apiKey: 1a5dd3f32f0263c12b838a8de22df78c
 
-let locApiUrl = 'https://maps.googleapis.com/maps/api/geocode/json';
+let locApiUrl = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
 let locApiKey = 'AIzaSyBiF-k6CtGz-gwgd8o7hhd9C1GoWMKxLgU';
-let locSearchTerm;
+let locSearchTerm = 0;
 
 var weatherData;
 var locationData;
@@ -24,30 +24,35 @@ var skycons = new Skycons({"color": "white"});
 function setup() {
   noCanvas();
   getWeather();
+  eventListener();
 }
 
-$(document).ready(function() {
-  $('.searchBox').keydown(function(event) {
-    //enter is keycode 13
-    if(event.keycode == 13) {
-      $('#searchForm').submit();
-      console.log('enter was pressed');
-      return false;
-    }
-  });
-})
+function eventListener() {
+    $(function() {
+      $('.search_container').each(function() {
+          $(this).find('input').keypress(function(e) {
+              // Enter pressed?
+              if(e.which == 10 || e.which == 13) {
+                console.log('enter pressed');
+                locSearchTerm = $('input[type=text][name=locSearch]').val();
+                if(locSearchTerm != 0) {
+                  console.log(locSearchTerm);
+                  geocode();
+                }
+              }
+          });
+      });
+    });
+}
 
 function geocode() {
-  locSearchTerm = $('.searchBox').val();
-  locSearchUrl = locApiUrl + '?address=' + locSearchTerm.replace(" ", '+') + '&key=' + locApiKey;
-  console.log('search term: ' + locSearchTerm);
+  locSearchUrl = locApiUrl + locSearchTerm.replace(" ", '+') + '&key=' + locApiKey;
   console.log('request url: ' + locSearchUrl);
-  /*
+
   loadJSON(locSearchUrl, function(data) {
     locationData = data;
-    //gotLocation();
+    gotLocation();
   });
-  */
 }
 
 function getWeather() {
@@ -76,9 +81,11 @@ function gotWeather(weather) {
 
 function gotLocation() {
   console.log(locationData);
-  //document.getElementById("address").innerHTML = locationData.results[0].formatted_address;
-  //document.getElementById("lat").innerHTML = 'Latitude of location:  ' + locationData.results[0].geometry.location.lat;
-  //document.getElementById("lng").innerHTML = 'Latitude of location:  ' + locationData.results[0].geometry.location.lng;
+  $('#location_data').html(locationData.results[0].formatted_address);
+  lat = locationData.results[0].geometry.location.lat;
+  lon = locationData.results[0].geometry.location.lng;
+  getWeather();
+  $('#search_bar').val('');
 }
 
 function displayData() {
