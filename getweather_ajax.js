@@ -33,10 +33,10 @@ function eventListener() {
           $(this).find('input').keypress(function(e) {
               // Enter pressed?
               if(e.which == 10 || e.which == 13) {
-                console.log('enter pressed');
+                //console.log('enter pressed');
                 locSearchTerm = $('input[type=text][name=locSearch]').val();
                 if(locSearchTerm != 0) {
-                  console.log(locSearchTerm);
+                  //console.log(locSearchTerm);
                   geocode();
                 }
               }
@@ -47,7 +47,7 @@ function eventListener() {
 
 function geocode() {
   locSearchUrl = locApiUrl + locSearchTerm.replace(" ", '+') + '&key=' + locApiKey;
-  console.log('request url: ' + locSearchUrl);
+  //console.log('request url: ' + locSearchUrl);
 
   loadJSON(locSearchUrl, function(data) {
     locationData = data;
@@ -66,6 +66,7 @@ function getWeather() {
       weatherData = data;
       //gotWeather();
       displayData();
+      console.log(data);
     },
   });
 }
@@ -130,20 +131,23 @@ function displayData() {
 
   var clientTime = new Date();
   var clientHour = clientTime.getHours();
-  //console.log(clientHour);
+  //console.log('client hour: ' + clientHour);
   for(var i = 0; i < 7; i++) {
     var requestedIcon = weatherData.daily.data[i].icon;
     //console.log(requestedIcon);
     if(i != 0 && requestedIcon == 'clear-night' || 'partly-cloudy-night') {
       if(requestedIcon == 'clear-night') {
         requestedIcon = 'clear-day';
-        skycons.add(document.getElementById('day' + i + 'icon'), requestedIcon);
+        skycons.remove(document.getElementById('day' + i + 'icon')); 
+        skycons.add(document.getElementById('day' + i + 'icon'), requestedIcon);         
       }
       else if(requestedIcon == 'partly-cloudy-night') {
         requestedIcon = 'partly-cloudy-day';
+        skycons.remove(document.getElementById('day' + i + 'icon'));
         skycons.add(document.getElementById('day' + i + 'icon'), requestedIcon);
-      }
+      }   
     }
+    skycons.remove(document.getElementById('day' + i + 'icon'), requestedIcon);
     skycons.add(document.getElementById('day' + i + 'icon'), requestedIcon);
   }
   skycons.play();
@@ -158,10 +162,12 @@ function displayData() {
     document.getElementById('day' + i + 'lowTemp').innerHTML = lowTemp + '°C';
   }
 
+  // display precipitation
+
   for(var i = 0; i < 7; i++) {
-    if(weatherData.daily.data[i].precipType != 'snow') {
+    if(weatherData.daily.data[i].precipType == 'rain') {
       for(var j = 0; j < 7; j++) {
-        $('#precip_right' + j).remove();
+        $('#day' + j + 'amount').html('');
         $('#precip_left' + j).css({
           'width': '100%',
           'border': '0px',
@@ -172,21 +178,27 @@ function displayData() {
         $('#day' + j + 'probab').html(precipProbability + '%');
       }
     }
-    else if(weatherData.daily.data[i].precipType = 'snow') {
-      for(var j = 0; j < 7; j++) {
-        $('#day' + j + 'probab').css('font-size', '95%');
-        $('#day' + j + 'amount').css('font-size', '95%'); 
-        var precipProbability = Math.round(weatherData.daily.data[j].precipProbability * 100);
-        $('#day' + j + 'probab').html(precipProbability + '%');
+    else if(weatherData.daily.data[i].precipType == 'snow') {
+        $('#precip_left' + i).css({
+          'width': '50%',
+          'border-right': '1px solid #aecbf9', 
+        });
+        $('#precip_right' + i).css({
+          'flex-grow': '1',
+          'color': '#aecbf9',
+          'font-weight': 'normal'
+        });
+        $('#day' + i + 'probab').css('font-size', '95%');
+        $('#day' + i + 'amount').css('font-size', '95%'); 
+        var precipProbability = Math.round(weatherData.daily.data[i].precipProbability * 100);
+        $('#day' + i + 'probab').html(precipProbability + '%');
 
-        var precipAmount = weatherData.daily.data[i].precipIntensity / 0.39370;
+        console.log(weatherData.daily.data[i].precipAccumulation);
+        var precipAmount = (weatherData.daily.data[i].precipAccumulation / 0.39370);
         if(precipAmount < 1) {
-          $('#day' + j + 'amount').html('<1cm');
+          $('#day' + i + 'amount').html('<1cm');
         }
-        else {
-          $('#day' + j + 'amount').html(Math.floor(precipAmount) + 'cm');
-        }
-      }
+        $('#day' + i + 'amount').html(Math.floor(precipAmount) + 'cm');
     } 
   }
 }
@@ -194,15 +206,7 @@ function displayData() {
 
 
 
-
-
-
 /*
-
-
-
-
-//  skycons.add(document.getElementById("day0icon"), Skycons.RAIN);
 
 
 
