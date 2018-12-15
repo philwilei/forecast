@@ -93,7 +93,7 @@ function displayData() {
 
 // figure out and display weekdays
 
-  for(var i = 0; i < 7; i++) {
+  for(let i = 0; i < 7; i++) {
     epoch = new Date(weatherData.daily.data[i].time * 1000);
     weekday[i] = epoch.getDay();
     //console.log('weekday number of day ' + i + ': ' + weekday[i]);
@@ -132,7 +132,7 @@ function displayData() {
   var clientTime = new Date();
   var clientHour = clientTime.getHours();
   //console.log('client hour: ' + clientHour);
-  for(var i = 0; i < 7; i++) {
+  for(let i = 0; i < 7; i++) {
     var requestedIcon = weatherData.daily.data[i].icon;
     //console.log(requestedIcon);
     if(i != 0 && requestedIcon == 'clear-night' || 'partly-cloudy-night') {
@@ -154,19 +154,19 @@ function displayData() {
 
   // display temps
   
-  for(var i = 0; i < 7; i++) {
+  for(let i = 0; i < 7; i++) {
     var highTemp = Math.round(weatherData.daily.data[i].temperatureHigh);
     document.getElementById('day' + i + 'highTemp').innerHTML = highTemp + '°C';
 
     var lowTemp = Math.round(weatherData.daily.data[i].temperatureLow);
     document.getElementById('day' + i + 'lowTemp').innerHTML = lowTemp + '°C';
   }
-
+/*
   // display precipitation
 
-  for(var i = 0; i < 7; i++) {
+  for(let i = 0; i < 7; i++) {
     if(weatherData.daily.data[i].precipType == 'rain') {
-      for(var j = 0; j < 7; j++) {
+      for(let j = 0; j < 7; j++) {
         $('#day' + j + 'amount').html('');
         $('#precip_left' + j).css({
           'width': '100%',
@@ -181,15 +181,15 @@ function displayData() {
     else if(weatherData.daily.data[i].precipType == 'snow') {
         $('#precip_left' + i).css({
           'width': '50%',
-          'border-right': '1px solid #aecbf9', 
+          'border-right': '1px solid #aecbf9',
+          'font-size': '95%',
         });
         $('#precip_right' + i).css({
           'flex-grow': '1',
           'color': '#aecbf9',
-          'font-weight': 'normal'
+          'font-weight': 'normal',
+          'font-size': '95%',
         });
-        $('#day' + i + 'probab').css('font-size', '95%');
-        $('#day' + i + 'amount').css('font-size', '95%'); 
         var precipProbability = Math.round(weatherData.daily.data[i].precipProbability * 100);
         $('#day' + i + 'probab').html(precipProbability + '%');
 
@@ -202,9 +202,7 @@ function displayData() {
     } 
   }
 }
-
-
-
+*/
 
 /*
 
