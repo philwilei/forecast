@@ -90,7 +90,6 @@ body {
 
 .forecast_container {
   display: table-row;
-  width: 100%;
   text-align: center;
   overflow-x: visible;
   white-space: nowrap;
@@ -100,17 +99,17 @@ body {
   display: none;
 }
 
-.forecast_item {
+#forecast_item0, #forecast_item1, #forecast_item2, #forecast_item3, #forecast_item4, #forecast_item5, #forecast_item6 {
   width: 80px;
   display: inline-block;
   vertical-align: top;
-  /*border: 1px solid black;*/
   text-align: center;
   padding: 50px 20px 0px 20px;
 }
 
-.forecast_item:hover {
+#forecast_item0:hover, #forecast_item1:hover, #forecast_item2:hover, #forecast_item3:hover, #forecast_item4:hover, #forecast_item5:hover, #forecast_item6:hover {
   background: #3b6689;
+  cursor: pointer;
   opacity: 50%;
 }
 
@@ -183,4 +182,12 @@ body {
   font-size: 95%;
   font-weight: normal;
   color: #aecbf9;
+}
+
+#forecast_details {
+  text-align: center;
+  width: 840px;
+  height: 300px;
+  margin: 0 auto;
+  background: #3b6689;
 }

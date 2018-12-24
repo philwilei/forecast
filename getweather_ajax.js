@@ -14,7 +14,6 @@ let locSearchTerm = 0;
 var weatherData;
 var locationData;
 
-var epoch;
 var weekday = [];
 
 var skycons = new Skycons({"color": "white"});
@@ -24,25 +23,79 @@ var skycons = new Skycons({"color": "white"});
 function setup() {
   noCanvas();
   getWeather();
-  eventListener();
+  keypressListener();
+  clickListener();
+  $('#forecast_details').css('display', 'none');
 }
 
-function eventListener() {
-    $(function() {
-      $('.search_container').each(function() {
-          $(this).find('input').keypress(function(e) {
-              // Enter pressed?
-              if(e.which == 10 || e.which == 13) {
-                //console.log('enter pressed');
-                locSearchTerm = $('input[type=text][name=locSearch]').val();
-                if(locSearchTerm != 0) {
-                  //console.log(locSearchTerm);
-                  geocode();
-                }
+function keypressListener() {
+  $(function() {
+    $('.search_container').each(function() {
+        $(this).find('input').keypress(function(e) {
+            // Enter pressed?
+            if(e.which == 10 || e.which == 13) {
+              //console.log('enter pressed');
+              locSearchTerm = $('input[type=text][name=locSearch]').val();
+              if(locSearchTerm != 0) {
+                //console.log(locSearchTerm);
+                geocode();
               }
-          });
-      });
+            }
+        });
     });
+  });
+}
+
+function clickListener() {
+  $('#forecast_item0').click(function() {
+    console.log('clicked forecast_item 0');
+    $(this).css('background', '#3b6689');
+    clearDaySelection(0);
+    $('#forecast_details').css('display', 'block');
+  });
+  $('#forecast_item1').click(function() {
+    console.log('clicked forecast_item 1');
+    $(this).css('background', '#3b6689');
+    clearDaySelection(1);
+  });
+  $('#forecast_item2').click(function() {
+    console.log('clicked forecast_item 2');
+    $(this).css('background', '#3b6689');
+    clearDaySelection(2);
+  });
+  $('#forecast_item3').click(function() {
+    console.log('clicked forecast_item 3');
+    $(this).css('background', '#3b6689');
+    clearDaySelection(3);
+  });
+  $('#forecast_item4').click(function() {
+    console.log('clicked forecast_item 4');
+    $(this).css('background', '#3b6689');
+    clearDaySelection(4);
+  });
+  $('#forecast_item5').click(function() {
+    console.log('clicked forecast_item 5');
+    $(this).css('background', '#3b6689');
+    clearDaySelection(5);
+  });
+  $('#forecast_item6').click(function() {
+    console.log('clicked forecast_item 6');
+    $(this).css('background', '#3b6689');
+    clearDaySelection(6);
+  });
+}
+
+function clearDaySelection(selectedDay) {
+  for(var i = 0; i < 7; i++) {
+    if(i == selectedDay) {
+      continue;
+    }
+    $('#forecast_item' + i).css('background', '#142635');
+    $('#forecast_item' + i + ':hover').css({
+      'background': '#3b6689',
+      'opacity': '50%'
+    });
+  }
 }
 
 function geocode() {
@@ -94,7 +147,7 @@ function displayData() {
 // figure out and display weekdays
 
   for(let i = 0; i < 7; i++) {
-    epoch = new Date(weatherData.daily.data[i].time * 1000);
+    var epoch = new Date(weatherData.daily.data[i].time * 1000);
     weekday[i] = epoch.getDay();
     //console.log('weekday number of day ' + i + ': ' + weekday[i]);
     switch(weekday[i]) {
@@ -161,9 +214,9 @@ function displayData() {
     var lowTemp = Math.round(weatherData.daily.data[i].temperatureLow);
     document.getElementById('day' + i + 'lowTemp').innerHTML = lowTemp + '°C';
   }
-/*
-  // display precipitation
 
+  // display precipitation
+/*
   for(let i = 0; i < 7; i++) {
     if(weatherData.daily.data[i].precipType == 'rain') {
       for(let j = 0; j < 7; j++) {
@@ -199,10 +252,24 @@ function displayData() {
           $('#day' + i + 'amount').html('<1cm');
         }
         $('#day' + i + 'amount').html(Math.floor(precipAmount) + 'cm');
-    } 
+    }
+    */
+
+    // rain only
+
+    for(var i = 0; i < 7; i++) {
+      $('#precip_right' + i).remove();
+      $('#precip_left' + i).css({
+        'width': '100%',
+        'border': '0px',
+        'text-align': 'center',
+        'font-size': '100%',
+      });
+      $('.precipContainer').css('text-align', 'center');
+      var precipProbability = Math.round(weatherData.daily.data[i].precipProbability * 100);
+      $('#day' + i + 'probab').html(precipProbability + '%');
+    }
   }
-}
-*/
 
 /*
 
